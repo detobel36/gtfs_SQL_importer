@@ -1,3 +1,5 @@
+\! echo "Begin gtfs_tables.sql"
+
 drop table IF EXISTS gtfs_agency cascade;
 drop table IF EXISTS gtfs_stops cascade;
 drop table IF EXISTS gtfs_routes cascade;
@@ -326,3 +328,4 @@ create table gtfs_feed_info (
 
 
 commit;
+\! echo "End gtfs_tables.sql"
