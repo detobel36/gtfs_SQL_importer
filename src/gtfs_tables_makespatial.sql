@@ -1,3 +1,4 @@
+\! echo "Begin gtfs_tables_makespatial.sql"
 -- Add spatial support for PostGIS databases only
 
 -- Drop everything first
@@ -39,3 +40,4 @@ CREATE INDEX "
 _the_geom_gist" ON "gtfs_shape_geoms" using gist ("the_geom" gist_geometry_ops_2d);
 
 COMMIT;
+\! echo "End gtfs_tables_makespatial.sql"
