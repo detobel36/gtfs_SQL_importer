@@ -4,7 +4,7 @@
   -- Create a table that contains stop distances along trip patterns, assuming that a pattern consists of
   -- (a.route_id, direction_id, shape_id)
   -- this is far more efficient than doing the geometry processing on every row in stop_times
-
+\! echo "Begin gtfs_add_stop_dist_along_shape.sql"
 begin;
 drop table if exists gtfs_stop_distances_along_shape;
 drop table if exists gtfs_distinct_patterns;
@@ -42,3 +42,4 @@ a.route_id = t.route_id
 drop table if exists gtfs_stop_times;
 alter table gtfs_stop_times2 rename to gtfs_stop_times;
 commit;
+\! echo "End gtfs_add_stop_dist_along_shape.sql"
