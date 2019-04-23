@@ -1,4 +1,4 @@
-
+\! echo "Begin gtfs_tables_makeindexes.sql"
 
 begin;
 
@@ -155,3 +155,4 @@ ALTER TABLE gtfs_transfers ADD CONSTRAINT xfer_trid_fkey
 
 
 commit;
+\! echo "End gtfs_tables_makeindexes.sql"
