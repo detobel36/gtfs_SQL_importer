@@ -14,8 +14,8 @@ SELECT distinct t.route_id, t.direction_id, t.shape_id, st.stop_sequence, st.sto
 inner join gtfs_trips t on st.trip_id = t.trip_id;
 
 CREATE TABLE gtfs_stop_distances_along_shape AS
-SELECT a.route_id, direction_id, shape_id, stop_sequence, stop_id, round(cast(st_line_locate_point(route_geom,stop_geom) as numeric),3) AS pct_along_shape, 
-	st_line_locate_point(route_geom,stop_geom) * st_length_spheroid(route_geom, 'SPHEROID["GRS_1980",6378137,298.257222101]') as dist_along_shape
+SELECT a.route_id, direction_id, shape_id, stop_sequence, stop_id, round(cast(ST_LineLocatePoint(route_geom,stop_geom) as numeric),3) AS pct_along_shape, 
+	ST_LineLocatePoint(route_geom,stop_geom) * ST_LengthSpheroid(route_geom, 'SPHEROID["GRS_1980",6378137,298.257222101]') as dist_along_shape
 FROM gtfs_distinct_patterns a
 LEFT JOIN (SELECT the_geom AS route_geom, shape_id FROM gtfs_shape_geoms) c USING (shape_id)
 LEFT JOIN (SELECT the_geom AS stop_geom, stop_id FROM gtfs_stops) d USING (stop_id); 
