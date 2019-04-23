@@ -4,7 +4,7 @@
 -- It also uses the US National Atlas Equal-Area projection. 
 -- When processing GTFS feeds outside the US, please use a different projection.
 -- shape_dist is in Meters unless projection is changed.
-
+\! echo "Begin gtfs_add_shape_distance.sql"
 drop table if exists gtfs_shape_lengths;
 
 begin;
@@ -13,3 +13,4 @@ create table gtfs_shape_lengths as
 select shape_id, st_length(st_transform(the_geom,2163)) as shape_dist from gtfs_shape_geoms;
 
 commit;
+\! echo "End gtfs_add_shape_distance.sql"
