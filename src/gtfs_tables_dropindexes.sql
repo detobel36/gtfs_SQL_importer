@@ -1,3 +1,4 @@
+\! echo "Begin gtfs_tables_dropindexes.sql"
 drop index arr_time_index;
 drop index dep_time_index;
 drop index stop_seq_index;
@@ -85,3 +86,4 @@ ALTER TABLE gtfs_frequencies
 ALTER TABLE gtfs_frequencies 
       ALTER COLUMN headway_secs DROP NOT NULL;
 
+\! echo "End gtfs_tables_dropindexes.sql"
