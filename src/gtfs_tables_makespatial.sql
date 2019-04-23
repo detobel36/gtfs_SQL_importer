@@ -17,6 +17,7 @@ CREATE INDEX "gtfs_stops_the_geom_gist" ON "gtfs_stops" using gist ("the_geom" g
 -- Create new table to store the shape geometries
 CREATE TABLE gtfs_shape_geoms (
   route_id    text,
+  direction_id integer NOT NULL,
   shape_id    text
 );
 
@@ -25,7 +26,7 @@ SELECT AddGeometryColumn('gtfs_shape_geoms', 'the_geom', 4326, 'LINESTRING', 2);
 
 -- Populate gtfs_shape_geoms
 INSERT INTO gtfs_shape_geoms
-SELECT gtfs_trips.route_id, shape.shape_id, ST_SetSRID(ST_MakeLine(shape.the_geom), 4326) As new_geom
+SELECT gtfs_trips.route_id, gtfs_trips.direction_id, shape.shape_id, ST_SetSRID(ST_MakeLine(shape.the_geom), 4326) As new_geom
   FROM (
     SELECT shape_id, ST_MakePoint(shape_pt_lon, shape_pt_lat) AS the_geom
     FROM gtfs_shapes
@@ -33,7 +34,7 @@ SELECT gtfs_trips.route_id, shape.shape_id, ST_SetSRID(ST_MakeLine(shape.the_geo
   ) AS shape
       JOIN gtfs_trips
           ON gtfs_trips.shape_id = shape.shape_id
-GROUP BY shape.shape_id, gtfs_trips.route_id;
+GROUP BY shape.shape_id, gtfs_trips.route_id, gtfs_trips.direction_id;
 
 -- Create spatial index
 CREATE INDEX "
