@@ -1,3 +1,4 @@
+\! echo "Begin vacuumer.sql"
 vacuum analyze gtfs_agency;
 vacuum analyze gtfs_stops;
 vacuum analyze gtfs_routes;
@@ -20,3 +21,4 @@ vacuum analyze gtfs_feed_info;
 vacuum analyze gtfs_transfer_types;
 vacuum analyze gtfs_location_types;
 
+\! echo "End vacuumer.sql"
