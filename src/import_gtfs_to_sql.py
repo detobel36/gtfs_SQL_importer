@@ -191,8 +191,10 @@ if __name__ == "__main__":
     handlers['frequencies'] = FrequenciesHandler()
 
     if len(sys.argv) not in (2, 3):
-        print "Usage: %s gtfs_data_dir [nocopy]" % sys.argv[0]
+        print "Usage: %s gtfs_data_dirs [nocopy]" % sys.argv[0]
         print "  If nocopy is present, then uses INSERT instead of COPY."
+        print ""
+        print "gtfs_data_dirs must be separete by a comma"
         sys.exit()
 
     use_copy = "nocopy" not in sys.argv[2:]
@@ -200,7 +202,9 @@ if __name__ == "__main__":
     print "begin;"
 
     for fname in fnames:
-        for statement in import_file(os.path.join(sys.argv[1], fname + ".txt"), "gtfs_" + fname, handlers[fname], use_copy):
-            print statement
+        for file_name in sys.argv[1].split(','):
+            file_name = file_name.strip()
+            for statement in import_file(os.path.join(file_name, fname + ".txt"), "gtfs_" + fname, handlers[fname], use_copy):
+                print statement
 
     print "commit;"
