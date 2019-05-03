@@ -204,9 +204,9 @@ if __name__ == "__main__":
     for fname in fnames:
         for file_name in sys.argv[1].split(','):
             file_name = file_name.strip()
-            print '\! echo "Begin ' + file_name + '/' + fname + '.txt'
+            print '\! echo "Begin ' + file_name + '/' + fname + '.txt"'
             for statement in import_file(os.path.join(file_name, fname + ".txt"), "gtfs_" + fname, handlers[fname], use_copy):
                 print statement
-            print '\! echo "End ' + file_name + '/' + fname + '.txt'
+            print '\! echo "End ' + file_name + '/' + fname + '.txt"'
 
     print "commit;"
