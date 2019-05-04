@@ -40,5 +40,25 @@ GROUP BY shape.shape_id, gtfs_trips.route_id, gtfs_trips.direction_id;
 CREATE INDEX "
 _the_geom_gist" ON "gtfs_shape_geoms" using gist ("the_geom" gist_geometry_ops_2d);
 
+
+-- Create new table to store the line geometries
+CREATE TABLE gtfs_line_geoms (
+  route_id    text,
+  direction_id integer NOT NULL
+);
+
+-- Add the_geom column to the gtfs_shape_geoms table - a 2D linestring geometry
+SELECT AddGeometryColumn('gtfs_line_geoms', 'the_geom', 4326, 'MULTILINESTRING', 2);
+
+-- Populate gtfs_line_geoms
+INSERT INTO gtfs_line_geoms
+SELECT gtfs_shape_geoms.route_id, gtfs_shape_geoms.direction_id, ST_Collect(gtfs_shape_geoms.the_geom)
+FROM gtfs_shape_geoms
+GROUP BY gtfs_shape_geoms.route_id, gtfs_shape_geoms.direction_id;
+
+-- Create spatial index
+CREATE INDEX "gtfs_line_geoms_the_geom_gist" ON "gtfs_line_geoms" using gist ("the_geom" gist_geometry_ops_2d);
+CREATE INDEX ON "gtfs_line_geoms" (route_id, direction_id);
+
 COMMIT;
 \! echo "End gtfs_tables_makespatial.sql"
